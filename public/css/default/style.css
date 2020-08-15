@@ -1,0 +1,54 @@
+ body {
+     display: flex;
+     min-height: 100vh;
+     flex-direction: column;
+ }
+
+ main {
+     flex: 1 0 auto;
+ }
+
+ .back-black {
+     background-color: #192537;
+ }
+
+ .content-img {
+     width: 100%;
+     background-color: #192537;
+     display: flex;
+     justify-content: center;
+ }
+
+ .img-fluid {
+     width: 250px;
+     height: auto;
+ }
+
+ .layout-gallery {
+     max-width: 1000px;
+     margin: auto;
+ }
+
+ .bg-white {
+     background-color: #faf9f8;
+ }
+
+ .gallery-top {
+     margin-top: 20px;
+ }
+
+ .sidenav li>a:hover {
+     background-color: #40c267;
+     color: white;
+ }
+
+ nav ul a:hover {
+     background-color: #40c267;
+ }
+
+ nav .shop:hover{
+      background-color: #40c267;
+ }
+.validate{
+    text-align: center;
+}
