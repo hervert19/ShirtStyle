@@ -66,6 +66,10 @@
      height: 56px;
  }
 
+ .noUi-connect {
+     background: #40c267;
+ }
+
  .style-pagination {
      background-color: white;
      display: flex;
@@ -100,6 +104,9 @@
      cursor: pointer;
  }
 
+ .pointer{
+     cursor: pointer;
+ }
  #hr-default {
      display: none;
      margin-bottom: 20px;
@@ -110,6 +117,11 @@
      display: none;
  }
 
+ #titlecatalogo{
+     color:#40c267;
+     margin-top:0px;
+     margin-left:20px;
+ }
  #indices{
      line-height:28px;
      height:30px;
@@ -128,6 +140,19 @@
 
  .breadcrumb::before {
      color: black;
+ }
+
+ #bus-filtro {
+     padding: 0px;
+     border:none;
+ }
+ .filtros{
+     margin-top: 10px;
+ }
+ #colapsefiltros{
+     margin:0px;
+     box-shadow: none;
+     border:none;
  }
 
  @media only screen and (max-width: 993px) {

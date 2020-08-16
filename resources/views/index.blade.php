@@ -3,6 +3,81 @@
 <main>
     <div class="layout-gallery gallery-top">
         <div class="card bg-white">
+            <div style="padding:20px;">
+                <nav id="indices">
+                    <div class="col s12 right">
+                        <a href="{{route('catalogoCamisas')}}" class="breadcrumb">Inicio</a>
+                        <a href="{{route('catalogoCamisas')}}" class="breadcrumb">Catálogo</a>
+                    </div>
+                </nav>
+                <ul class="collapsible" id="colapsefiltros">
+                    <li>
+                        <div class="collapsible-header center" style="padding:0px;border:none;">
+                            <h5 id="titlecatalogo">
+                                Catálogo de  Camisas <label class="pointer"> Aplicar filtros</label>
+                            </h5>
+                        </div>
+                        <div id="bus-filtro" class="collapsible-body">
+                            <div class="row" style="margin-bottom:0px;">
+                                <div class="col s12 m4">
+                                    <div class="input-field col s12 filtros">
+                                        <input type="text" placeholder="Camisa color azul">
+                                        <label>Descripción</label>
+                                    </div>
+                                </div>
+                                <div class="col s12 m4">
+                                    <div class="input-field col s12 filtros">
+                                        <select>
+                                            <option value="Todos">Todos</option>
+                                            @foreach ($select["color"] as $item)
+                                            <option value="{{$item->color}}">{{$item->color}}</option>
+                                            @endforeach
+                                        </select>
+                                        <label>Filtrar por color</label>
+                                    </div>
+                                </div>
+                                <div class="col s12 m4">
+                                    <div class="input-field col s12 filtros">
+                                        <select>
+                                            <option value="Todos">Todos</option>
+                                            @foreach ($select["marca"] as $item)
+                                            <option value="{{$item->marca}}">{{$item->marca}}</option>
+                                            @endforeach
+                                        </select>
+                                        <label>Filtrar por marca</label>
+                                    </div>
+                                </div>
+                                <div class="col m7">
+                                    <div class="row mb-0">
+                                        <div class="col s12 m3">
+                                            <div class="input-field col s12 filtros center">
+                                                <input type="number" id="input-min">
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m6 center">
+                                            <label>Filtrar por precio</label>
+                                            <div class="input-field col s12 filtros">
+                                                <div id="test-slider"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m3">
+                                            <div class="input-field col s12 filtros center">
+                                                <input type="number" id="input-max">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col s12 m3 right">
+                                    <button class="btn waves-effect orange darken-2" type="submit" name="action" style="margin-top:15px;width:100%;">BUSCAR
+                                        <i class="material-icons right">search</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
             <div class="row" style="padding:10px;">
                 @foreach ($productos as $item)
                 <div class="col s12 m4">
