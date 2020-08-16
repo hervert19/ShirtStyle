@@ -25,14 +25,6 @@
 </footer>
 <script src="{{ asset('/js/default/jquery-3.4.1.min.js') }}"></script>
 <script src="{{ asset('/js/default/materialize.min.js') }}"></script>
-<script>
-    $(document).ready(function(){
-                $('.sidenav').sidenav();
-            $('.carousel').carousel();
-            $('.materialboxed').materialbox();
-            $('select').formSelect();
-            });
-</script>
 @yield('scripts')
 </body>
 

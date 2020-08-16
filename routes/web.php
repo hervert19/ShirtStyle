@@ -11,10 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', 'GalleryController@index')->name('catalogoCamisas');
 
-Route::get('/mostrar', function () {
-    return view('mostrar');
-});
+Route::get('/detalles/{id?}', 'GalleryController@detalles')->name('detalleProducto');
+Route::get('/MisArticulos', 'GalleryController@MisArticulos')->name('MisArticulos');
