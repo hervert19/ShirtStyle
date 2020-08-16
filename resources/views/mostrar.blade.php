@@ -1,4 +1,4 @@
-@include('layout.header', ['title' => 'Caballero'])
+@include('layout.header', ['title' => 'Detalles'])
 @include('layout.menu')
 @php($imagen1 = $imagenes["imagen1"])
 @php($imagen2 = $imagenes["imagen2"])
@@ -8,6 +8,13 @@
 <main>
     <div class="layout-gallery gallery-top">
         <div class="card bg-white" style="padding:20px;">
+            <nav id="indices">
+                <div class="col s12 right">
+                    <a href="{{route('catalogoCamisas')}}" class="breadcrumb">Inicio</a>
+                    <a href="{{route('catalogoCamisas')}}" class="breadcrumb">Catálogo</a>
+                    <a href="{{route('detalleProducto', ['id' => base64_encode($producto->idproducto)])}}" class="breadcrumb">Detalles</a>
+                </div>
+            </nav>
             <div class="row">
                 <div class="col s12 m7">
                     <img src='{{ asset("$imagen1") }}' class="materialboxed" style="max-width:100%;" id="imagencentral">

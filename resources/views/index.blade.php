@@ -1,4 +1,4 @@
-@include('layout.header', ['title' => 'Caballero'])
+@include('layout.header', ['title' => 'Catálogo Camisas'])
 @include('layout.menu')
 <main>
     <div class="layout-gallery gallery-top">

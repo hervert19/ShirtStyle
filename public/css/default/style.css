@@ -45,54 +45,109 @@
      color: white;
  }
 
- nav .shop:hover{
-      background-color: #40c267;
+ nav .shop:hover {
+     background-color: #40c267;
  }
-.validate{
-    text-align: center;
-}
-.text-right{
-    text-align: right;
-}
-.text-justify {
-    text-align: justify;
-}
 
-.pagination li.active {
-    background-color: #40c267;
-    height: 56px;
-}
+ .validate {
+     text-align: center;
+ }
 
-.style-pagination{
-    background-color:white;
-    display:flex;
-    justify-content:center;
-}
-.mt-0{
-    margin-top: 0px;
-}
-.mb-0 {
-    margin-bottom: 0px;
-}
-.mb-5 {
-    margin-bottom: 7px;
-}
+ .text-right {
+     text-align: right;
+ }
 
-.mb-20 {
-    margin-bottom: 20px;
-}
+ .text-justify {
+     text-align: justify;
+ }
 
-.title-detalles{
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-#gallery-min img{
-    cursor: pointer;
-}
-@media only screen and (max-width: 993px) {
-    .other-pagination {
-        background-color:white;
-        display:flex;
-        justify-content:center;
-    }
-}
+ .pagination li.active {
+     background-color: #40c267;
+     height: 56px;
+ }
+
+ .style-pagination {
+     background-color: white;
+     display: flex;
+     justify-content: center;
+ }
+
+ .mt-0 {
+     margin-top: 0px;
+ }
+ .mt-10 {
+     margin-top: 10px;
+ }
+
+ .mb-0 {
+     margin-bottom: 0px;
+ }
+
+ .mb-5 {
+     margin-bottom: 7px;
+ }
+
+ .mb-20 {
+     margin-bottom: 20px;
+ }
+
+ .title-detalles {
+     padding-top: 10px;
+     padding-bottom: 10px;
+ }
+
+ #gallery-min img {
+     cursor: pointer;
+ }
+
+ #hr-default {
+     display: none;
+     margin-bottom: 20px;
+ }
+
+ #totallabel,
+ #preciolabel {
+     display: none;
+ }
+
+ #indices{
+     line-height:28px;
+     height:30px;
+     background-color:white;
+     box-shadow: none;
+ }
+
+ .breadcrumb {
+     color: black;
+     font-size: 14px;
+ }
+
+ .breadcrumb:last-child {
+     color: #40c267;
+ }
+
+ .breadcrumb::before {
+     color: black;
+ }
+
+ @media only screen and (max-width: 993px) {
+     .other-pagination {
+         background-color: white;
+         display: flex;
+         justify-content: center;
+     }
+
+     .salto {
+         margin-bottom: 20px;
+     }
+
+     #div-caracteristicas {
+         display: none;
+     }
+
+     #totallabel,
+     #preciolabel,
+     #hr-default {
+         display: block;
+     }
+ }

@@ -12,6 +12,6 @@
 */
 
 Route::get('/', 'GalleryController@index')->name('catalogoCamisas');
-
 Route::get('/detalles/{id?}', 'GalleryController@detalles')->name('detalleProducto');
 Route::get('/MisArticulos', 'GalleryController@MisArticulos')->name('MisArticulos');
+Route::get('/Registro', 'GalleryController@Registro')->name('Registro');

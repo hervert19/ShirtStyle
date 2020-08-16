@@ -9,7 +9,8 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link type="text/css" href="{{ asset('/css/default/materialize.min.css?v='.rand()) }}" rel="stylesheet">
         <link type="text/css" href="{{ asset('/css/default/style.css?v='.rand()) }}" rel="stylesheet">
-        <title>ShirtStyle</title>
+        <link rel="shortcut icon" href="{{ asset('/img/favicon.ico') }}">
+        <title>{{$title}}</title>
     </head>
 
     <body>

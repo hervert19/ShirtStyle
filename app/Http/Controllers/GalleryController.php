@@ -52,4 +52,11 @@ class GalleryController extends Controller
         $carrito = Carrito::where("idusuario", 1)->with('producto')->get();
         return view('carrito')->with("carrito", $carrito)->with("articulos", $articulos);
     }
+
+    public function Registro()
+    {
+        $articulos = $this->getArticulos(1);
+        $usuario = Usuarios::find(1);
+        return view('registro')->with("usuario", $usuario)->with("articulos", $articulos);
+    }
 }

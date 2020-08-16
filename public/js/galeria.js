@@ -4,6 +4,7 @@
      $('.materialboxed').materialbox();
      $('select').formSelect();
      $('.collapsible').collapsible();
+     $('.tooltipped').tooltip();
  });
 
  function ChangeImage(value) {
