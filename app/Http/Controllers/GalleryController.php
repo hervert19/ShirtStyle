@@ -17,7 +17,8 @@ class GalleryController extends Controller
 
     public function index()
     {
-        $articulos = $this->getArticulos(1);
+        $idusuario = $this->InitSesion();
+        $articulos = $this->getArticulos($idusuario);
         $empresa = $this->getFooter();
         $select["color"] = Productos::select('color')->distinct()->get();
         $select["marca"] = Productos::select('marca')->distinct()->get();
@@ -27,6 +28,199 @@ class GalleryController extends Controller
             ->with("empresa", $empresa)
             ->with("select", $select)
             ->with("productos", $productos);
+    }
+
+    public function InitSesion()
+    {
+        $value = session()->get('key');
+        if ($value == null || $value == "") {
+            $sesion = $this->ValidateCode();
+            $result = $this->CreateSesion($sesion);
+            if ($result["bandera"] == true) {
+                session()->put('key', $sesion);
+                session()->put('idusuario', $result["idusuario"]);
+            } else {
+                $idusuario = 0;
+            }
+        } else {
+            $idusuario = session()->get('idusuario');
+        }
+        return $idusuario;
+    }
+
+    public function CreateSesion($sesion)
+    {
+        $NewUser = Usuarios::create(['sesion' => $sesion]);
+        $response["bandera"] = true;
+        if (!$NewUser) {
+            $response["bandera"] = false;
+            $response["idusuario"] = null;
+        } else {
+            $temporal = Usuarios::where("sesion", $sesion)->first();
+            $response["idusuario"] = $temporal->idusuario;
+        }
+        return $response;
+    }
+
+    public function detalles($id)
+    {
+        $idusuario = $this->InitSesion();
+        $articulos = $this->getArticulos($idusuario);
+        $idproducto = base64_decode($id);
+        $producto = Productos::find($idproducto);
+        $imagenes = Galery::where("idproducto", $idproducto)->first();
+        $inventario = Inventario::where("idproducto", $idproducto)->get();
+        $tallas = Tallas::all();
+        $empresa = $this->getFooter();
+        return view('mostrar')
+            ->with("empresa", $empresa)
+            ->with("producto", $producto)
+            ->with("imagenes", $imagenes)
+            ->with("inventario", $inventario)
+            ->with("tallas", $tallas)
+            ->with("articulos", $articulos);
+    }
+
+    public function MisArticulos()
+    {
+        $idusuario = $this->InitSesion();
+        $articulos = $this->getArticulos($idusuario);
+        $empresa = $this->getFooter();
+        $carrito = Carrito::where("idusuario", $idusuario)->with('producto')->get();
+        return view('carrito')
+            ->with("empresa", $empresa)
+            ->with("carrito", $carrito)
+            ->with("articulos", $articulos);
+    }
+
+    public function Registro()
+    {
+        $idusuario = $this->InitSesion();
+        $articulos = $this->getArticulos($idusuario);
+        $usuario = Usuarios::find(1);
+        $empresa = $this->getFooter();
+        return view('registro')
+            ->with("empresa", $empresa)
+            ->with("usuario", $usuario)
+            ->with("articulos", $articulos);
+    }
+
+    public function InsertarProducto(Request $request)
+    {
+        $idproducto = $request->input('idproducto');
+        $talla = $request->input('talla');
+        $cantidad = $request->input('cantidad');
+        $inventario = Inventario::where("idproducto", $idproducto)->where("idtalla", $talla)->get();
+        $max = 0;
+        foreach ($inventario as $item) {
+            $max = $item->disponible;
+        }
+        if ($cantidad > $max) {
+            $response["status"] = "warning";
+            $response["msg"] = "La cantidad maxima de este artículo es $max";
+        } else {
+            $idusuario = $this->InitSesion();
+            if ($idusuario != 0) {
+                $NewArticulo = Carrito::create([
+                    'idproducto' => $idproducto,
+                    'idusuario' => $idusuario,
+                    'cantidad' => $cantidad,
+                    'idtalla' => $talla,
+                ]);
+                if ($NewArticulo) {
+                    $response["status"] = "success";
+                    $response["msg"] = "Se añadio a tus artículo";
+                } else {
+                    $response["status"] = "error";
+                    $response["msg"] = "Ocurrio un error, no agregado";
+                }
+            } else {
+                $response["status"] = "error";
+                $response["msg"] = "Error de sesión, vualva a cargar la página";
+            }
+        }
+        return response()->json($response);
+    }
+
+    public function ValidateInsertProduct(){
+
+    }
+
+    public function EliminarProducto(Request $request)
+    {
+        $idcarrito = $request->input('idcarrito');
+        $delete = Carrito::where('idcarrito', $idcarrito)->delete();
+        if ($delete) {
+            $response["status"] = "success";
+            $response["msg"] = "Se elimino el artículo";
+        } else {
+            $response["status"] = "error";
+            $response["msg"] = "Ocurrio un error, no se elimino";
+        }
+        return response()->json($response);
+    }
+
+    public function UpdateProducto(Request $request)
+    {
+        $idcarrito = $request->input('idcarrito');
+        $operacion = $request->input('operacion');
+        $cantidad = $request->input('cantidad');
+        if ($operacion == "add") {
+            $max = $this->MaxProduct($idcarrito);
+            if ($cantidad >= $max) {
+                return response()->json(["status" => "warning", "msg" => "La cantidad maxima de este artículo es $max"]);
+            } else {
+                $cantidad++;
+            }
+        } else {
+            $cantidad--;
+        }
+        $update = Carrito::where('idcarrito', $idcarrito)->update(['cantidad' => $cantidad]);
+        if ($update) {
+            $response["status"] = "success";
+            $response["msg"] = "Se actualizo el artículo";
+        } else {
+            $response["status"] = "error";
+            $response["msg"] = "Ocurrio un error, no se actualizo";
+        }
+        return response()->json($response);
+    }
+
+    public function MaxProduct($idcarrito)
+    {
+        $Item = Carrito::find($idcarrito);
+        $inventario = Inventario::where("idproducto", $Item->idproducto)->where("idtalla", $Item->idtalla)->get();
+        $cantidad = 0;
+        foreach ($inventario as $item) {
+            $cantidad = $item->disponible;
+        }
+        return $cantidad;
+    }
+
+    public function ValidateCode()
+    {
+        $code = $this->GenerateCode();
+        $users = Usuarios::where('sesion', $code)->get();
+        if (count($users) == 0) {
+            return $code;
+        } else {
+            $this->ValidateCode();
+        }
+    }
+
+    public function GenerateCode()
+    {
+        $code = "";
+        $caracteres = "AB0CDE1FGHI2JK3LM4NO5PQ6RS7TUV8WXY9Z";
+        $final = array();
+        $longitud = 10;
+        for ($i = 0; $i <= $longitud; $i++) {
+            $final[$i] = $caracteres[rand(0, strlen($caracteres) - 1)];
+        }
+        foreach ($final as $datos) {
+            $code .= $datos;
+        }
+        return $code;
     }
 
     public function getArticulos($idusuario)
@@ -42,45 +236,5 @@ class GalleryController extends Controller
     {
         $empresa = Empresa::first();
         return $empresa;
-    }
-
-    public function detalles($id)
-    {
-        $idproducto = base64_decode($id);
-        $producto = Productos::find($idproducto);
-        $imagenes = Galery::where("idproducto", $idproducto)->first();
-        $inventario = Inventario::where("idproducto", $idproducto)->get();
-        $tallas = Tallas::all();
-        $articulos = $this->getArticulos(1);
-        $empresa = $this->getFooter();
-        return view('mostrar')
-            ->with("empresa", $empresa)
-            ->with("producto", $producto)
-            ->with("imagenes", $imagenes)
-            ->with("inventario", $inventario)
-            ->with("tallas", $tallas)
-            ->with("articulos", $articulos);
-    }
-
-    public function MisArticulos()
-    {
-        $articulos = $this->getArticulos(1);
-        $empresa = $this->getFooter();
-        $carrito = Carrito::where("idusuario", 1)->with('producto')->get();
-        return view('carrito')
-            ->with("empresa", $empresa)
-            ->with("carrito", $carrito)
-            ->with("articulos", $articulos);
-    }
-
-    public function Registro()
-    {
-        $articulos = $this->getArticulos(1);
-        $usuario = Usuarios::find(1);
-        $empresa = $this->getFooter();
-        return view('registro')
-            ->with("empresa", $empresa)
-            ->with("usuario", $usuario)
-            ->with("articulos", $articulos);
     }
 }

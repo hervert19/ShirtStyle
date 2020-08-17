@@ -9,6 +9,7 @@
                         <a href="{{route('catalogoCamisas')}}" class="breadcrumb">Inicio</a>
                         <a href="{{route('catalogoCamisas')}}" class="breadcrumb">Catálogo</a>
                         <a href="{{route('MisArticulos')}}" class="breadcrumb">Mis Artículos</a>
+                        <a href="{{route('Registro')}}" class="breadcrumb">Registro</a>
                     </div>
                 </nav>
                 <div class="row">
@@ -19,38 +20,38 @@
                                     <i class="material-icons">local_mall</i> Registro
                                 </h5>
                                 <div class="row">
-                                    <div class="input-field col s6">
-                                        <input id="nombre" type="text" class="validate">
+                                    <div class="input-field col s12 m6">
+                                        <input id="nombre" type="text" class="validate" placeholder="">
                                         <label for="nombre">Nombre</label>
                                     </div>
-                                    <div class="input-field col s6">
-                                        <input id="apellido" type="text" class="validate">
+                                    <div class="input-field col s12 m6">
+                                        <input id="apellido" type="text" class="validate" placeholder="">
                                         <label for="apellido">Apellido</label>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="input-field col s6">
-                                        <input id="telefono" type="text" class="validate">
+                                    <div class="input-field col s12 m6">
+                                        <input id="telefono" type="text" class="validate" placeholder="">
                                         <label for="telefono">Telefóno</label>
                                     </div>
-                                    <div class="input-field col s6">
-                                        <input id="email" type="text" class="validate">
+                                    <div class="input-field col s12 m6">
+                                        <input id="email" type="text" class="validate" placeholder="">
                                         <label for="email">Email</label>
                                     </div>
-                                    <div class="input-field col s12">
+                                    <div class="input-field col s12 m12">
                                         <input id="direccion" type="text" class="validate" placeholder="calle, número interior y exterior">
                                         <label for="direccion">Direccion</label>
                                     </div>
                                     <div class="input-field col m4">
-                                        <input id="cp" type="text" class="validate">
+                                        <input id="cp" type="text" class="validate" placeholder="">
                                         <label for="cp">CP</label>
                                     </div>
-                                    <div class="input-field col m4">
-                                        <input id="ciudad" type="text" class="validate">
+                                    <div class="input-field col s12 m4">
+                                        <input id="ciudad" type="text" class="validate" placeholder="">
                                         <label for="ciudad">Ciudad</label>
                                     </div>
-                                    <div class="input-field col m4">
-                                        <input id="pais" type="text" class="validate">
+                                    <div class="input-field col s12 m4">
+                                        <input id="pais" type="text" class="validate" placeholder="">
                                         <label for="pais">País</label>
                                     </div>
                                 </div>
@@ -66,40 +67,40 @@
                                 <div class="row">
                                     <p class="col s12">
                                         <label>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" id="identicos" onclick="CopyForm();" />
                                             <span>Son los mismos datos del registro</span>
                                         </label>
                                     </p>
-                                    <div class="input-field col s6">
-                                        <input id="recibe" type="text" class="validate">
+                                    <div class="input-field col s12 m6">
+                                        <input id="recibe" type="text" class="validate" placeholder="">
                                         <label for="recibe">Recibe</label>
                                     </div>
-                                    <div class="input-field col s6">
-                                        <input id="telefonorecibe" type="text" class="validate">
+                                    <div class="input-field col s12 m6">
+                                        <input id="telefonorecibe" type="text" class="validate" placeholder="">
                                         <label for="telefonorecibe">Telefóno</label>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="input-field col s12">
+                                    <div class="input-field col s12 m6">
                                         <input id="direccionrecibe" type="text" class="validate" placeholder="calle, número interior y exterior">
                                         <label for="direccionrecibe">Direccion</label>
                                     </div>
-                                    <div class="input-field col m4">
-                                        <input id="cprecibe" type="text" class="validate">
+                                    <div class="input-field col s12 m4">
+                                        <input id="cprecibe" type="text" class="validate" placeholder="">
                                         <label for="cprecibe">CP</label>
                                     </div>
-                                    <div class="input-field col m4">
-                                        <input id="ciudadrecibe" type="text" class="validate">
+                                    <div class="input-field col s12 m4">
+                                        <input id="ciudadrecibe" type="text" class="validate" placeholder="">
                                         <label for="ciudadrecibe">Ciudad</label>
                                     </div>
-                                    <div class="input-field col m4">
-                                        <input id="paisrecibe" type="text" class="validate">
+                                    <div class="input-field col s12 m4">
+                                        <input id="paisrecibe" type="text" class="validate" placeholder="">
                                         <label for="paisrecibe">País</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col m8 right mt-10">
+                        <div class="col s12 m8 right mt-10">
                             <button class="btn waves-effect green darken-1" type="submit" name="action" style="width:100%;">CONTINUAR
                                 <i class="material-icons right">arrow_forward</i>
                             </button>
@@ -113,4 +114,5 @@
 @extends('layout.footer')
 @section('scripts')
 <script src="{{ asset('/js/galeria.js') }}"></script>
+<script src="{{ asset('/js/registro.js') }}"></script>
 @endsection

@@ -21,12 +21,14 @@
                     <div class="row">
                         <div class="col s4 m1 center"><b>Artículo</b></div>
                         <div class="col s4 m3 center"><b>Descripción</b></div>
+                        <div class="col s4 m1 center"><b>Talla</b></div>
                         <div class="col s4 m2 center"><b>Precio</b></div>
-                        <div class="col s4 m3 center"><b>Cantidad</b></div>
+                        <div class="col s4 m2 center"><b>Cantidad</b></div>
                         <div class="col s4 m2 center"><b>Total</b></div>
                         <div class="col s4 m1 center"></div>
                     </div>
                 </div>
+                @if (count($carrito) != 0)
                 @foreach ($carrito as $item)
                 <div class="col m12">
                     <hr id="hr-default">
@@ -38,19 +40,20 @@
                             </a>
                         </div>
                         <div class="col s12 m3 center salto">{{$item->producto->descripcion}}</div>
+                        <div class="col s12 m1 center salto">{{$item->talla->medida}}</div>
                         <div class="col s12 m2 center salto"><label id="preciolabel">Precio</label> $ {{$item->producto->precioventa}}</div>
-                        <div class="col s12 m3 center">
+                        <div class="col s12 m2 center">
                             <div class="row">
                                 <div class="col s4 m4 center">
-                                    <a class="btn-floating waves-effect orange darken-2 tooltipped" data-position="top" data-tooltip="Remover">
+                                    <a class="btn-floating waves-effect orange darken-2 tooltipped" data-position="top" data-tooltip="Remover" id="remove-{{$item->idcarrito}}" onclick="ChangeItem(this)">
                                         <i class="material-icons">remove</i>
                                     </a>
                                 </div>
                                 <div class="col s4 m4 center">
-                                    <input id="first_name" type="text" class="center" value="{{$item->cantidad}}" readonly>
+                                    <input id="cant-{{$item->idcarrito}}" type="text" class="center" value="{{$item->cantidad}}" readonly>
                                 </div>
                                 <div class="col s4 m4 center">
-                                    <a class="btn-floating  waves-effect blue-grey darken-1 tooltipped" data-position="top" data-tooltip="Añadir">
+                                    <a class="btn-floating  waves-effect blue-grey darken-1 tooltipped" data-position="top" data-tooltip="Añadir" id="add-{{$item->idcarrito}}" onclick="ChangeItem(this)">
                                         <i class="material-icons">add</i>
                                     </a>
                                 </div>
@@ -60,7 +63,8 @@
                         @php($totalgeneral += $temptotal)
                         <div class="col s12 m2 center salto"><label id="totallabel">Total</label> $ {{ number_format($temptotal, 2, '.', '') }}</div>
                         <div class="col s12 m1 center">
-                            <a class="btn-floating waves-effect red accent-2 tooltipped" data-position="top" data-tooltip="Eliminar Artículo">
+                            <a class="btn-floating waves-effect red accent-2 tooltipped" data-position="top" data-tooltip="Eliminar Artículo" id="item-{{$item->idcarrito}}"
+                                onclick="getFormDelete(this)">
                                 <i class="material-icons">clear</i>
                             </a>
                         </div>
@@ -88,6 +92,25 @@
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="row">
+                    <div class="col m12 red accent-2 center text-white">
+                       <p class="white-text">No se encontraron artículos.</p>
+                    </div>
+                </div>
+                <br><br>
+                <div class="col s12 m12">
+                    <div class="row mb-0">
+                        <div class="col s12 m8 "></div>
+                        <div class="col s12 m4">
+                            <a class="waves-effect waves-light btn green darken-1" href="{{route('catalogoCamisas')}}" style="width:100%;">
+                                <i class="material-icons left">arrow_back</i>REGRESAR
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @endif
+
             </div>
         </div>
     </div>

@@ -2,7 +2,8 @@
     <nav class="back-black">
         <div class="nav-wrapper">
             <a class="brand-logo right shop" style="font-size:16px;padding-left:10px;" href="{{route('MisArticulos')}}">
-                <i class="material-icons font-deft right" style="font-size:16px;">local_mall</i> Mis Artículos ( {{$articulos}} )
+                <i class="material-icons font-deft right" style="font-size:16px;">local_mall</i> 
+                Mis Artículos ( <b id="TotalCarrito">{{$articulos}}</b> )
             </a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="left hide-on-med-and-down">

@@ -59,7 +59,7 @@
 <script src="{{ asset('/js/default/jquery-3.4.1.min.js') }}"></script>
 <script src="{{ asset('/js/default/materialize.min.js') }}"></script>
 <script src="{{ asset('/js/default/nouislider.js') }}"></script>
-
+<script src="{{ asset('/js/default/sweetalert2.min.js') }}"></script>
 @yield('scripts')
 </body>
 

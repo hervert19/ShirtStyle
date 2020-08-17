@@ -19,4 +19,9 @@ class Tallas extends Model
     {
         return $this->belongsTo('App\Models\Tallas', 'idtalla', 'idtalla');
     }
+
+    public function Carrito()
+    {
+        return $this->belongsTo('App\Models\Carrito', 'idtalla', 'idtalla');
+    }
 }

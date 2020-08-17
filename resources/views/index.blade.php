@@ -14,7 +14,7 @@
                     <li>
                         <div class="collapsible-header center" style="padding:0px;border:none;">
                             <h5 id="titlecatalogo">
-                                Catálogo de  Camisas <label class="pointer"> Aplicar filtros</label>
+                                Catálogo de Camisas <label class="pointer"> Aplicar filtros</label>
                             </h5>
                         </div>
                         <div id="bus-filtro" class="collapsible-body">
@@ -107,7 +107,7 @@
                             <form>
                                 <div class="row">
                                     <div class="input-field col s4">
-                                        <select id="first_name{{$item->codigo}}" class="validate">
+                                        <select id="talla{{$item->codigo}}" name="talla" class="validate">
                                             @foreach ($item->inventarioproducto as $temptalla)
                                             @if ($temptalla->disponible > 0)
                                             @if ($temptalla->talla->idtalla == 1)
@@ -119,14 +119,16 @@
                                             @endif
                                             @endforeach
                                         </select>
-                                        <label for="first_name{{$item->codigo}}">Talla</label>
+                                        <label for="talla{{$item->codigo}}">Talla</label>
                                     </div>
                                     <div class="input-field col s4">
-                                        <input id="last_name{{$item->codigo}}" type="number" min="1" class="validate" value="1">
-                                        <label for="last_name{{$item->codigo}}">Cantidad</label>
+                                        <input id="cantidad{{$item->codigo}}" name="cantidad" type="number" min="1" class="validate" value="1">
+                                        <label for="cantidad{{$item->codigo}}">Cantidad</label>
                                     </div>
                                     <div class="input-field col s4">
-                                        <a class="btn-floating btn-large waves-effect orange darken-2"><i class="material-icons">add</i></a>
+                                        <button class="btn-floating btn-large waves-effect orange darken-2" type="button" id="item-{{$item->codigo}}-{{$item->idproducto}}" onclick="getFormData(this);">
+                                            <i class="material-icons">add</i>
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -145,4 +147,5 @@
 @extends('layout.footer')
 @section('scripts')
 <script src="{{ asset('/js/galeria.js') }}"></script>
+<script src="{{ asset('/js/neuslider.js') }}"></script>
 @endsection

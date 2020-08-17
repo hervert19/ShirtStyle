@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col s12 m7">
                     <img src='{{ asset("$imagen1") }}' class="materialboxed" style="max-width:100%;" id="imagencentral">
-                
+
                     <div class="row center" id="gallery-min" style="margin-top:20px;">
                         <div class="col s3 m2">
                             <img src='{{ asset("$imagen1") }}' style="max-width:100%;" onclick="ViewImage(this)">
@@ -62,6 +62,7 @@
                             <div class="row mb-0">
                                 <form class="col s12">
                                     <input type="hidden" id="formprecio" value="{{$producto->precioventa}}">
+                                    <input type="hidden" id="formidproducto" value="{{$producto->idproducto}}">
                                     <div class="row">
                                         <div class="input-field col s12 m6">
                                             <select id="formtalla" class="validate center">
@@ -86,7 +87,9 @@
                                             <label for="formtotal">Total</label>
                                         </div>
                                         <div class="input-field col s12 m6 center">
-                                            <a class="waves-effect waves-light btn green darken-1"><i class="material-icons right">add</i>AGREGAR</a>
+                                            <button class="waves-effect waves-light btn green darken-1" type="button" onclick="DetallesAdd();">
+                                                <i class="material-icons right">add</i> AGREGAR
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -120,7 +123,7 @@
                                         <img src="{{ asset('/img/pay/american.png') }}" style="max-width:100%;">
                                     </div>
                                     <div class="col s3 m3">
-                                       <img src="{{ asset('/img/pay/masterdcard.png') }}" style="max-width:100%;">
+                                        <img src="{{ asset('/img/pay/masterdcard.png') }}" style="max-width:100%;">
                                     </div>
                                     <div class="col s3 m3">
                                         <img src="{{ asset('/img/pay/visa.png') }}" style="max-width:100%;">

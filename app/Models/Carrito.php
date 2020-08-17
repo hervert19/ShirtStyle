@@ -14,6 +14,7 @@ class Carrito extends Model
         'idproducto',
         'idusuario',
         'cantidad',
+        'idtalla'
     ];
 
     public function usuario()
@@ -24,5 +25,10 @@ class Carrito extends Model
     public function producto()
     {
         return $this->hasOne('App\Models\Productos', 'idproducto', 'idproducto');
+    }
+
+    public function talla()
+    {
+        return $this->hasOne('App\Models\Tallas', 'idtalla', 'idtalla');
     }
 }	 	 	

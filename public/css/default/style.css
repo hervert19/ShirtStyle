@@ -79,6 +79,7 @@
  .mt-0 {
      margin-top: 0px;
  }
+
  .mt-10 {
      margin-top: 10px;
  }
@@ -104,9 +105,10 @@
      cursor: pointer;
  }
 
- .pointer{
+ .pointer {
      cursor: pointer;
  }
+
  #hr-default {
      display: none;
      margin-bottom: 20px;
@@ -117,15 +119,16 @@
      display: none;
  }
 
- #titlecatalogo{
-     color:#40c267;
-     margin-top:0px;
-     margin-left:20px;
+ #titlecatalogo {
+     color: #40c267;
+     margin-top: 0px;
+     margin-left: 20px;
  }
- #indices{
-     line-height:28px;
-     height:30px;
-     background-color:white;
+
+ #indices {
+     line-height: 28px;
+     height: 30px;
+     background-color: white;
      box-shadow: none;
  }
 
@@ -144,17 +147,22 @@
 
  #bus-filtro {
      padding: 0px;
-     border:none;
- }
- .filtros{
-     margin-top: 10px;
- }
- #colapsefiltros{
-     margin:0px;
-     box-shadow: none;
-     border:none;
+     border: none;
  }
 
+ .filtros {
+     margin-top: 10px;
+ }
+
+ #colapsefiltros {
+     margin: 0px;
+     box-shadow: none;
+     border: none;
+ }
+
+ #swal2-title {
+     color: white;
+ }
  @media only screen and (max-width: 993px) {
      .other-pagination {
          background-color: white;
