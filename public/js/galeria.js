@@ -46,14 +46,34 @@
      } else {
          ResponseAlert("warning", "El minimo para agregar el artículo es 1.");
      }
+ }
 
+ function process(valor, cadena) {
+     let val = valor;
+     let timerInterval;
+     let aux = 50000;
+     if (val == false) {
+         aux = 100;
+     }
+     var spinner = '<div class="progress"><div class="indeterminate"></div></div>';
+     Swal.fire({
+         html: "<h6>" + cadena + "</h6><br>" + spinner,
+         timer: aux,
+         width: 300,
+         allowOutsideClick: false,
+         showConfirmButton: false,
+         onClose: () => {
+             clearInterval(timerInterval)
+         }
+     })
  }
 
  function DetallesAdd() {
      var idproducto = $("#formidproducto").val();
      var talla = $("#formtalla").val();
      var cantidad = $("#formcantidad").val();
-     if (cantidad < 0 || cantidad == "") {
+     if (cantidad <=
+         0 || cantidad == "") {
          ResponseAlert("warning", "El minimo para agregar el artículo es 1.");
      } else {
          CallInsertProduct(idproducto, talla, cantidad);
@@ -77,7 +97,9 @@
              "cantidad": cantidad,
          },
          datatype: 'JSON',
+         beforeSend: process(true, "Agregando producto, espere un momento"),
          success: function (response) {
+             process(false, 'agregado');
              ResponseAlert(response.status, response.msg);
              if (response.status == "success") {
                  AddArticulo(1);
@@ -98,7 +120,9 @@
              "idcarrito": idcarrito,
          },
          datatype: 'JSON',
+         beforeSend: process(true, "Eliminando producto, espere un momento"),
          success: function (response) {
+             process(false, 'eliminado');
              ResponseAlert(response.status, response.msg);
              if (response.status == "success") {
                  RemoveArticulo(1);
@@ -141,7 +165,9 @@
                  "cantidad": cantidad,
              },
              datatype: 'JSON',
+             beforeSend: process(true, "Actualizando carrito, espere un momento"),
              success: function (response) {
+                 process(false, 'actualizado');
                  ResponseAlert(response.status, response.msg);
                  if (response.status == "success") {
                      history.go(0);

@@ -1,4 +1,10 @@
 $(document).ready(function () {
+    $('.modal').modal({
+        dismissible: false,
+    });
+    $('#entrega1').hide();
+    $('#entrega2').hide()
+
     $("#FormRegistro").submit(function (event) {
         event.preventDefault();
         $.ajax({
@@ -6,12 +12,14 @@ $(document).ready(function () {
             type: 'POST',
             data: $("#FormRegistro").serialize(),
             datatype: "JSON",
+            beforeSend: process(true, "Registrando, espere un momento"),
             success: function (response) {
+                process(false, 'Registrado');
                 ResponseAlert(response.status, response.msg);
                 if (response.status == "success") {
                     window.setTimeout(function () {
                         location.href = "/FinalizarCompra";
-                    }, 2000);
+                    }, 1000);
                 }
             },
             error: function (e) {
@@ -36,8 +44,26 @@ $(document).ready(function () {
                     type: 'POST',
                     data: $("#formFinalizar").serialize(),
                     datatype: "JSON",
+                    beforeSend: process(true, "Finalizando compra, espere un momento"),
                     success: function (response) {
-                        
+                        process(false, 'finalizado');
+                        if (response.status == "success") {
+                            ResponseAlert(response.status, "Proceso finalizado con éxito");
+                            $("#numeropedido").html(response.numpedido);
+                            var total = parseFloat(response.total);
+                            $("#respuestatotal").html("$" + total.toFixed(2));
+                            var tipo = response.idenvio;
+                            if (tipo == 1) {
+                                $('#entrega1').show();
+                                $('#entrega2').hide();
+                            } else {
+                                $('#entrega2').show();
+                                $('#entrega1').hide();
+                            }
+                            $("#modal1").modal("open");
+                        } else {
+                            ResponseAlert(response.status, response.msg);
+                        }
                     },
                     error: function (e) {
                         ResponseAlert("error", "Error de servidor, vuelve a cargar la página");

@@ -12,6 +12,7 @@ use App\Models\Usuarios;
 use App\Models\Carrito;
 use App\Models\Empresa;
 use App\Models\TiposEnvio;
+use App\Models\Pedidos;
 
 class GalleryController extends Controller
 {
@@ -101,10 +102,14 @@ class GalleryController extends Controller
         $articulos = $this->getArticulos($idusuario);
         $usuario = Usuarios::find($idusuario);
         $empresa = $this->getFooter();
-        return view('registro')
-            ->with("empresa", $empresa)
-            ->with("usuario", $usuario)
-            ->with("articulos", $articulos);
+        if ($articulos != 0) {
+            return view('registro')
+                ->with("empresa", $empresa)
+                ->with("usuario", $usuario)
+                ->with("articulos", $articulos);
+        } else {
+            return redirect()->route('MisArticulos');
+        }
     }
 
     public function FinalizarCompra()
@@ -113,15 +118,19 @@ class GalleryController extends Controller
         $articulos = $this->getArticulos($idusuario);
         $usuario = Usuarios::find($idusuario);
         $empresa = $this->getFooter();
-        $tiposenvio["Economico"] = TiposEnvio::find(1);
-        $tiposenvio["Express"] = TiposEnvio::find(2);
-        $carrito = Carrito::where("idusuario", $idusuario)->with('producto')->get();
-        return view('finalizar')
-            ->with("empresa", $empresa)
-            ->with("usuario", $usuario)
-            ->with("carrito", $carrito)
-            ->with("tiposenvio", $tiposenvio)
-            ->with("articulos", $articulos);
+        if ($usuario->registro == 1) {
+            $tiposenvio["Economico"] = TiposEnvio::find(1);
+            $tiposenvio["Express"] = TiposEnvio::find(2);
+            $carrito = Carrito::where("idusuario", $idusuario)->with('producto')->get();
+            return view('finalizar')
+                ->with("empresa", $empresa)
+                ->with("usuario", $usuario)
+                ->with("carrito", $carrito)
+                ->with("tiposenvio", $tiposenvio)
+                ->with("articulos", $articulos);
+        } else {
+            return redirect()->route('MisArticulos');
+        }
     }
 
     public function InsertarProducto(Request $request)
@@ -253,6 +262,59 @@ class GalleryController extends Controller
             }
         }
         return response()->json($response);
+    }
+
+    public function TerminarRegistro(Request $request)
+    {
+        $idusuario = $request->input('idusuario');
+        $ValidateCard["tipotarjeta"] = $request->input('tipotarjeta');
+        $ValidateCard["numerotarjeta"] = $request->input('numerotarjeta');
+        $ValidateCard["expiracion"] = $request->input('expiracion');
+        $ValidateCard["seguridad"] = $request->input('seguridad');
+        $ValidateCard["titular"] = $request->input('titular');
+        $responseCard =  $this->ValidateCard($ValidateCard);
+        if ($responseCard == true) {
+            $Pedido["numpedido"] = session()->get('key');
+            $Pedido["idusuario"] = $idusuario;
+            $Pedido["idenvio"] = $request->input('eleccionenvio');
+            $Pedido["subtotal"] = $request->input('subtotal');
+            $TipoEnvio = TiposEnvio::find($Pedido["idenvio"]);
+            $Pedido["costoenvio"] = $TipoEnvio->precio;
+            $Pedido["total"] = $request->input('total');
+            $NewPedido = Pedidos::create($Pedido);
+            if ($NewPedido) {
+                $this->UpdateStock($idusuario);
+                Usuarios::where("idusuario", $idusuario)->update(["finalizo" => 1]);
+                session()->forget(['key', 'idusuario']);
+                session()->flush();
+                $response["status"] = "success";
+                $response["numpedido"] = $Pedido["numpedido"];
+                $response["total"] = $Pedido["total"];
+                $response["idenvio"] = $Pedido["idenvio"];
+            } else {
+                $response["status"] = "error";
+                $response["msg"] = "No se pudo finalizar el pedido, vuelve a intentar";
+            }
+        }
+        return response()->json($response);
+    }
+
+    public function UpdateStock($idusuario)
+    {
+        $carrito = Carrito::where("idusuario", $idusuario)->get();
+        foreach ($carrito as $item) {
+            $inventario = Inventario::where("idproducto", $item->idproducto)->where("idtalla", $item->idtalla)->first();
+            $stock = $inventario->disponible;
+            $newstock["disponible"] = $stock - $item->cantidad;
+            $newstock["vendido"] = $item->cantidad;
+            Inventario::where("idproducto", $item->idproducto)->where("idtalla", $item->idtalla)->update($newstock);
+        }
+    }
+
+    public function ValidateCard($data)
+    {
+        /*Conexion hacia la pasarla de pagos API REST*/
+        return true;
     }
 
     public function ValidateCode()

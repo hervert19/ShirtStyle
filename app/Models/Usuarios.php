@@ -8,7 +8,7 @@ class Usuarios extends Model
 {
     protected $table = 'usuarios';
     protected $primaryKey = 'idusuario';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'sesion',
@@ -28,6 +28,8 @@ class Usuarios extends Model
         'recibepais',
         'registro',
         'finalizo',
+        'created_at',
+        'updated_at'
     ];
 
     public function articulos()

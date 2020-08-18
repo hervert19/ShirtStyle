@@ -14,10 +14,12 @@
                     </div>
                 </nav>
                 <form id="formFinalizar">
+                    @csrf
+                    <input type="hidden" name="idusuario" value="{{$usuario->idusuario}}">
                     <div class="row">
                         <div class="col s12 m12 l6">
                             <div class="row">
-                                <div class="col s12">
+                                <div class="col s12 m10 l12">
                                     <div class="card">
                                         <div class="card-content">
                                             <span class="card-title" style="color:#40c267;">
@@ -61,15 +63,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col s12">
+                                <div class="col s12 m10 l12">
                                     <div class="card">
                                         <div class="card-content">
                                             <span class="card-title">
                                                 <div class="row" id="paymentcard">
-                                                    <div class="col s12 m6">
+                                                    <div class="col s8 m6 l6">
                                                         <i class="material-icons">payment</i> Forma de Pago
                                                     </div>
-                                                    <div class="col s12 m6">
+                                                    <div class="col s4 m6 l6" id="paybox">
                                                         <div class="row">
                                                             <div class="col s3 m3">
                                                                 <img src="{{ asset('/img/pay/paypal.png') }}" style="max-width:100%;">
@@ -90,31 +92,32 @@
                                             <div class="row">
                                                 <div class="col s6">
                                                     <label>
-                                                        <input name="group2" type="radio" checked />
+                                                        <input name="tipotarjeta" type="radio" checked />
                                                         <span class="black-text">Tarjeta de Credito</span>
                                                     </label>
                                                 </div>
                                                 <div class="col s6">
                                                     <label>
-                                                        <input name="group2" type="radio" />
+                                                        <input name="tipotarjeta" type="radio" />
                                                         <span class="black-text">Tarjeta de Debito</span>
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="input-field col s12">
-                                                    <input id="numerotarjeta" name="numerotarjeta" type="text" class="validate" placeholder="1234 2345 5678 9870" maxlength="19" minlength="19" required>
+                                                <div class="input-field col col s12 m6 l12">
+                                                    <input id="numerotarjeta" name="numerotarjeta" type="text" class="validate" placeholder="1234 2345 5678 9870" maxlength="19" minlength="19"
+                                                        required>
                                                     <label for="numerotarjeta">Numero de Tarjeta</label>
                                                 </div>
-                                                <div class="input-field col s6 m6">
+                                                <div class="input-field col s12 m6 l6">
                                                     <input id="expiracion" name="expiracion" type="text" class="validate" placeholder="MM/AA" maxlength="5" minlength="5" required>
                                                     <label for="expiracionn">Fecha de Expiración</label>
                                                 </div>
-                                                <div class="input-field col s6 m6">
+                                                <div class="input-field col s12 m5 l6">
                                                     <input id="seguridad" name="seguridad" type="text" class="validate" placeholder="CVV" maxlength="3" minlength="3" required>
                                                     <label for="seguridad">Código de Seguridad</label>
                                                 </div>
-                                                <div class="input-field col s12">
+                                                <div class="input-field col s12 m7 l12">
                                                     <input id="titular" name="titular" type="text" class="validate" placeholder="" required>
                                                     <label for="titular">Nombre del Titular</label>
                                                 </div>
@@ -128,7 +131,7 @@
                         $totalgeneral = 0;
                         $temptotal = 0;
                         @endphp
-                        <div class="col s12 m12 l6">
+                        <div class="col s12 m10 l6">
                             <div class="card">
                                 <div class="card-content">
                                     <span class="card-title" style="color:#40c267;">
@@ -150,18 +153,18 @@
                                         @endphp
                                         <div class="col m12">
                                             <div class="row">
-                                                <div class="col l2 center">
+                                                <div class="col s2 m2 l2 center">
                                                     <img src='{{ asset("$imagen1") }}' style="max-width:100%;">
                                                     <label>$ {{$item->producto->precioventa}}</label>
                                                 </div>
-                                                <div class="col l5 center">
+                                                <div class="col s5 m5 l5 center">
                                                     {{$item->producto->descripcion}}
                                                 </div>
-                                                <div class="col l2 center">
+                                                <div class="col s2 m2 l2 center">
                                                     <span class="new badge">{{$item->cantidad}}</span>
                                                     <span class="new2 badge">{{$item->talla->medida}}</span>
                                                 </div>
-                                                <div class="col l3 center">
+                                                <div class="col s3 m3 l3 center">
                                                     <b>$ {{ number_format($temptotal, 2, '.', '') }}</b>
                                                 </div>
                                             </div>
@@ -172,7 +175,7 @@
                                         <tbody>
                                             <tr>
                                                 <td hidden>
-                                                    <input type="hidden" id="subtotal" value="{{$totalgeneral}}">
+                                                    <input type="hidden" id="subtotal" name="subtotal" value="{{$totalgeneral}}">
                                                 </td>
                                                 <td class="right">Subtotal</td>
                                                 <td class="center"><b>$</b> <b>{{number_format($totalgeneral, 2, '.', '')}}</b></td>
@@ -183,7 +186,7 @@
                                             </tr>
                                             <tr>
                                                 <td hidden>
-                                                    <input type="hidden" id="total" value="{{$totalgeneral}}">
+                                                    <input type="hidden" id="total" name="total" value="{{$totalgeneral + 80}}">
                                                 </td>
                                                 <td class="right">Total</td>
                                                 <td class="center"><b>$</b> <b id="htmltotal">{{number_format($totalgeneral + 80, 2, '.', '')}}</b></td>
@@ -207,6 +210,7 @@
         </div>
     </div>
 </main>
+@include('Detalles')
 @extends('layout.footer')
 @section('scripts')
 <script src="{{ asset('/js/registro.js') }}"></script>

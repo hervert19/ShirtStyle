@@ -12,7 +12,7 @@
 <footer class="page-footer green lighten-1">
     <div class="container">
         <div class="row">
-            <div class="col l6 s12">
+            <div class="col s12 l6">
                 <p class="white-text mb-0 mt-0"><b>¿Quiénes somos?</b></p>
                 <label class="grey-text text-lighten-4" style="line-height: 1;font-size: .9rem;">
                     {{$empresa->descripcion}}
@@ -22,7 +22,7 @@
                     {{$empresa->direccion}}
                 </label>
             </div>
-            <div class="col l4 offset-l2 s12">
+            <div class="col l4 offset-l2 s12 m5">
                 <ul>
                     <li><a class="grey-text text-lighten-3"><b>Teléfonos</b> {{$empresa->telefono1}} y {{$empresa->telefono2}}</a></li>
                     <li><a class="grey-text text-lighten-3"><b>Email</b> {{$empresa->correo}}</a></li>
@@ -30,16 +30,16 @@
                     <li>
                         <a class="grey-text text-lighten-3">
                             <div class="row">
-                                <div class="col s3 m3">
+                                <div class="col s3 m3 l3">
                                     <img src="{{ asset('/img/pay/paypal.png') }}" style="max-width:100%;">
                                 </div>
-                                <div class="col s3 m3">
+                                <div class="col s3 m3 l3">
                                     <img src="{{ asset('/img/pay/american.png') }}" style="max-width:100%;">
                                 </div>
-                                <div class="col s3 m3">
+                                <div class="col s3 m3 l3">
                                     <img src="{{ asset('/img/pay/masterdcard.png') }}" style="max-width:100%;">
                                 </div>
-                                <div class="col s3 m3">
+                                <div class="col s3 m3 l3">
                                     <img src="{{ asset('/img/pay/visa.png') }}" style="max-width:100%;">
                                 </div>
                             </div>
