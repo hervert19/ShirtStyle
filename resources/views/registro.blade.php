@@ -46,7 +46,7 @@
                                                 required>
                                             <label for="direccion">Direccion</label>
                                         </div>
-                                        <div class="input-field col m12 l4">
+                                        <div class="input-field col s12 m12 l4">
                                             <input type="text" class="validate" id="cp" name="cp" placeholder="" value="{{$usuario->cp}}" required>
                                             <label for="cp">CP</label>
                                         </div>

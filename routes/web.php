@@ -11,11 +11,11 @@
 |
 */
 
-Route::get('/', 'GalleryController@index')->name('catalogoCamisas');
+Route::get('/{datos?}', 'GalleryController@index')->name('catalogoCamisas');
 Route::get('/camisas/detalles/{id?}', 'GalleryController@detalles')->name('detalleProducto');
-Route::get('/MisArticulos', 'GalleryController@MisArticulos')->name('MisArticulos');
-Route::get('/Registro', 'GalleryController@Registro')->name('Registro');
-Route::get('/FinalizarCompra', 'GalleryController@FinalizarCompra')->name('FinalizarCompra');
+Route::get('/tienda/MisArticulos', 'GalleryController@MisArticulos')->name('MisArticulos');
+Route::get('/tienda/Registro', 'GalleryController@Registro')->name('Registro');
+Route::get('/tienda/FinalizarCompra', 'GalleryController@FinalizarCompra')->name('FinalizarCompra');
 
 Route::post('/camisas/insertar', 'GalleryController@InsertarProducto')->name('InsertarProducto');
 Route::post('/camisas/eliminar', 'GalleryController@EliminarProducto')->name('EliminarProducto');

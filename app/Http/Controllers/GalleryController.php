@@ -17,19 +17,59 @@ use App\Models\Pedidos;
 class GalleryController extends Controller
 {
 
-    public function index()
+    public function index($datos = null)
     {
+        if ($datos == null) {
+            $productos = Productos::with('fotos')->with("inventarioproducto")->paginate(9);
+            $filtros = null;
+        } else {
+            $d = base64_decode($datos);
+            $d = explode(',', $d);
+            if (count($d) == 5) {
+                $filtros['descripcion'] = $d[0];
+                $filtros['color'] = $d[1];
+                $filtros['marca'] = $d[2];
+                $filtros['min'] = $d[3];
+                $filtros['max'] = $d[4];
+                $productos = $this->filtros($d);
+            } else {
+                $productos = Productos::with('fotos')->with("inventarioproducto")->paginate(9);
+                $filtros = null;
+            }
+        }
         $idusuario = $this->InitSesion();
         $articulos = $this->getArticulos($idusuario);
         $empresa = $this->getFooter();
         $select["color"] = Productos::select('color')->distinct()->get();
         $select["marca"] = Productos::select('marca')->distinct()->get();
-        $productos = Productos::with('fotos')->with("inventarioproducto")->paginate(9);
         return view('index')
             ->with("articulos", $articulos)
             ->with("empresa", $empresa)
             ->with("select", $select)
+            ->with("filtros", $filtros)
             ->with("productos", $productos);
+    }
+
+    public function filtros($d)
+    {
+        $productos = Productos::when($d, function ($query, $d) {
+            if ($d[0] != "") {
+                return $query->where('productos.descripcion', 'like', "%{$d[0]}%");
+            }
+        })->when($d, function ($query, $d) {
+            if ($d[1] != "Todos") {
+                return $query->where('productos.color', $d[1]);
+            }
+        })->when($d, function ($query, $d) {
+            if ($d[2] != "Todos") {
+                return $query->where('productos.marca', $d[2]);
+            }
+        })->when($d, function ($query, $d) {
+            if ($d[3] > 0) {
+                return $query->where('productos.precioventa', '>=', $d[3])->where('productos.precioventa', '<=', $d[4]);
+            }
+        })->with('fotos')->with("inventarioproducto")->paginate(9);
+        return $productos;
     }
 
     public function InitSesion()

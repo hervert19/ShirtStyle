@@ -18,7 +18,7 @@ $(document).ready(function () {
                 ResponseAlert(response.status, response.msg);
                 if (response.status == "success") {
                     window.setTimeout(function () {
-                        location.href = "/FinalizarCompra";
+                        location.href = "/tienda/FinalizarCompra";
                     }, 1000);
                 }
             },

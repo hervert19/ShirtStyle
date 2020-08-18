@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col s12 m3 l1 center">
                             @php($imagen1 = $item->producto->fotos["imagen1"])
-                            <a href="{{route('detalleProducto', ['id' => base64_encode($item->idproducto)])}}" target="_blank">
+                            <a href="{{route('detalleProducto', ['id' => base64_encode($item->idproducto)])}}">
                                 <img src='{{ asset("$imagen1") }}' style="max-width:100%;">
                             </a>
                         </div>

@@ -10,6 +10,18 @@
      $('.collapsible').collapsible();
      $('.tooltipped').tooltip();
      $('.fixed-action-btn').floatingActionButton();
+
+     $("#Filtrar").on('click', function () {
+         var datos = [];
+         datos[0] = $("#fitrodescripcion").val();
+         datos[1] = $("#filtrocolor").val();
+         datos[2] = $("#filtromarca").val();
+         datos[3] = $("#input-min").val();
+         datos[4] = $("#input-max").val();
+         var dato = btoa(datos.toString());
+         window.location = "/" + dato;
+         $('#page-loader').fadeOut(500);
+     });
  });
 
  function ChangeImage(value) {
@@ -36,6 +48,9 @@
      var precio = $("#formprecio").val();
      var cantidad = $("#formcantidad").val();
      var total = parseFloat(precio) * parseFloat(cantidad);
+     if (isNaN(total)) {
+         total = 0;
+     }
      $("#formtotal").val("$ " + total.toFixed(2));
  }
 
