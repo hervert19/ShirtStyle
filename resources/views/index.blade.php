@@ -19,13 +19,13 @@
                         </div>
                         <div id="bus-filtro" class="collapsible-body">
                             <div class="row" style="margin-bottom:0px;">
-                                <div class="col s12 m4">
+                                <div class="col s12 m12 l4">
                                     <div class="input-field col s12 filtros">
                                         <input type="text" placeholder="Camisa color azul">
                                         <label>Descripción</label>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m6 l4">
                                     <div class="input-field col s12 filtros">
                                         <select>
                                             <option value="Todos">Todos</option>
@@ -36,7 +36,7 @@
                                         <label>Filtrar por color</label>
                                     </div>
                                 </div>
-                                <div class="col s12 m4">
+                                <div class="col s12 m6 l4">
                                     <div class="input-field col s12 filtros">
                                         <select>
                                             <option value="Todos">Todos</option>
@@ -47,27 +47,27 @@
                                         <label>Filtrar por marca</label>
                                     </div>
                                 </div>
-                                <div class="col m7">
+                                <div class="col m12 l7">
                                     <div class="row mb-0">
-                                        <div class="col s12 m3">
+                                        <div class="col s12 m4 l3">
                                             <div class="input-field col s12 filtros center">
                                                 <input type="number" id="input-min">
                                             </div>
                                         </div>
-                                        <div class="col s12 m6 center">
+                                        <div class="col s12 m4 l6 center">
                                             <label>Filtrar por precio</label>
                                             <div class="input-field col s12 filtros">
                                                 <div id="test-slider"></div>
                                             </div>
                                         </div>
-                                        <div class="col s12 m3">
+                                        <div class="col s12 m4 l3">
                                             <div class="input-field col s12 filtros center">
                                                 <input type="number" id="input-max">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col s12 m3 right">
+                                <div class="col s12 m6 l3 right">
                                     <button class="btn waves-effect orange darken-2" type="submit" name="action" style="margin-top:15px;width:100%;">BUSCAR
                                         <i class="material-icons right">search</i>
                                     </button>
@@ -80,7 +80,7 @@
             </div>
             <div class="row" style="padding:10px;">
                 @foreach ($productos as $item)
-                <div class="col s12 m4">
+                <div class="col s12 m6 l4">
                     <div class="card">
                         <a href="{{route('detalleProducto', ['id' => base64_encode($item->idproducto)])}}" target="_blank">
                             <div class="card-image">
@@ -125,8 +125,9 @@
                                         <input id="cantidad{{$item->codigo}}" name="cantidad" type="number" min="1" class="validate" value="1">
                                         <label for="cantidad{{$item->codigo}}">Cantidad</label>
                                     </div>
-                                    <div class="input-field col s4">
-                                        <button class="btn-floating btn-large waves-effect orange darken-2" type="button" id="item-{{$item->codigo}}-{{$item->idproducto}}" onclick="getFormData(this);">
+                                    <div class="input-field col s4 center">
+                                        <button class="btn-floating btn-large waves-effect orange darken-2" type="button" id="item-{{$item->codigo}}-{{$item->idproducto}}"
+                                            onclick="getFormData(this);">
                                             <i class="material-icons">add</i>
                                         </button>
                                     </div>

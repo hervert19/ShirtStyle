@@ -20,6 +20,13 @@ class Usuarios extends Model
         'ciudad',
         'cp',
         'pais',
+        'recibe',
+        'recibetelefono',
+        'recibedireccion',
+        'recibeciudad',
+        'recibecp',
+        'recibepais',
+        'registro',
         'finalizo',
     ];
 

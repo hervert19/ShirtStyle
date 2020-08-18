@@ -163,7 +163,37 @@
  #swal2-title {
      color: white;
  }
- @media only screen and (max-width: 993px) {
+
+ span.badge.new {
+     font-size: 1rem;
+     font-weight: bold;
+     color: #fff;
+     background-color: #40c267;
+     border-radius: 2px;
+     margin-top: 5px;
+ }
+
+ span.badge.new2 {
+     font-size: 1rem;
+     font-weight: bold;
+     color: #fff;
+     background-color: #192537;
+     border-radius: 2px;
+     margin-top: 5px;
+ }
+
+ #paymentcard {
+     background-color: #f69531;
+     color: white;
+     padding-top: 20px;
+ }
+
+ .divisor {
+     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+     border-top: 1px solid rgba(0, 0, 0, 0.12);
+ }
+
+ @media only screen and (max-width: 992px) {
      .other-pagination {
          background-color: white;
          display: flex;

@@ -11,6 +11,7 @@ use App\Models\Galery;
 use App\Models\Usuarios;
 use App\Models\Carrito;
 use App\Models\Empresa;
+use App\Models\TiposEnvio;
 
 class GalleryController extends Controller
 {
@@ -39,6 +40,7 @@ class GalleryController extends Controller
             if ($result["bandera"] == true) {
                 session()->put('key', $sesion);
                 session()->put('idusuario', $result["idusuario"]);
+                $idusuario = $result["idusuario"];
             } else {
                 $idusuario = 0;
             }
@@ -97,11 +99,28 @@ class GalleryController extends Controller
     {
         $idusuario = $this->InitSesion();
         $articulos = $this->getArticulos($idusuario);
-        $usuario = Usuarios::find(1);
+        $usuario = Usuarios::find($idusuario);
         $empresa = $this->getFooter();
         return view('registro')
             ->with("empresa", $empresa)
             ->with("usuario", $usuario)
+            ->with("articulos", $articulos);
+    }
+
+    public function FinalizarCompra()
+    {
+        $idusuario = $this->InitSesion();
+        $articulos = $this->getArticulos($idusuario);
+        $usuario = Usuarios::find($idusuario);
+        $empresa = $this->getFooter();
+        $tiposenvio["Economico"] = TiposEnvio::find(1);
+        $tiposenvio["Express"] = TiposEnvio::find(2);
+        $carrito = Carrito::where("idusuario", $idusuario)->with('producto')->get();
+        return view('finalizar')
+            ->with("empresa", $empresa)
+            ->with("usuario", $usuario)
+            ->with("carrito", $carrito)
+            ->with("tiposenvio", $tiposenvio)
             ->with("articulos", $articulos);
     }
 
@@ -142,8 +161,8 @@ class GalleryController extends Controller
         return response()->json($response);
     }
 
-    public function ValidateInsertProduct(){
-
+    public function ValidateInsertProduct()
+    {
     }
 
     public function EliminarProducto(Request $request)
@@ -195,6 +214,45 @@ class GalleryController extends Controller
             $cantidad = $item->disponible;
         }
         return $cantidad;
+    }
+
+    public function UpdateRegistro(Request $request)
+    {
+        $idusuario = $request->input('idusuario');
+        $user = Usuarios::find($idusuario);
+        $bandera = false;
+        if ($user->registro == 1) {
+            $bandera = true;
+        }
+        $item["nombre"] = $request->input('nombre');
+        $item["apellido"] = $request->input('apellido');
+        $item["telefono"] = $request->input('telefono');
+        $item["email"] = $request->input('email');
+        $item["direccion"] = $request->input('direccion');
+        $item["cp"] = $request->input('cp');
+        $item["ciudad"] = $request->input('ciudad');
+        $item["pais"] = $request->input('pais');
+        $item["recibe"] = $request->input('recibe');
+        $item["recibetelefono"] = $request->input('telefonorecibe');
+        $item["recibedireccion"] = $request->input('direccionrecibe');
+        $item["recibecp"] = $request->input('cprecibe');
+        $item["recibeciudad"] = $request->input('ciudadrecibe');
+        $item["recibepais"] = $request->input('paisrecibe');
+        $item["registro"] = 1;
+        $update = Usuarios::where('idusuario', $idusuario)->update($item);
+        if ($update) {
+            $response["status"] = "success";
+            $response["msg"] = "Se actualizo el registro";
+        } else {
+            if ($bandera == true) {
+                $response["status"] = "success";
+                $response["msg"] = "No hubo cambios";
+            } else {
+                $response["status"] = "error";
+                $response["msg"] = "Ocurrio un error, no se registro";
+            }
+        }
+        return response()->json($response);
     }
 
     public function ValidateCode()

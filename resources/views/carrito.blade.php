@@ -33,16 +33,16 @@
                 <div class="col m12">
                     <hr id="hr-default">
                     <div class="row">
-                        <div class="col s12 m1 center">
+                        <div class="col s12 m3 l1 center">
                             @php($imagen1 = $item->producto->fotos["imagen1"])
                             <a href="{{route('detalleProducto', ['id' => base64_encode($item->idproducto)])}}" target="_blank">
                                 <img src='{{ asset("$imagen1") }}' style="max-width:100%;">
                             </a>
                         </div>
-                        <div class="col s12 m3 center salto">{{$item->producto->descripcion}}</div>
-                        <div class="col s12 m1 center salto">{{$item->talla->medida}}</div>
-                        <div class="col s12 m2 center salto"><label id="preciolabel">Precio</label> $ {{$item->producto->precioventa}}</div>
-                        <div class="col s12 m2 center">
+                        <div class="col s12 m4 l3 center salto">{{$item->producto->descripcion}}</div>
+                        <div class="col s12 m2 l1 center salto">{{$item->talla->medida}}</div>
+                        <div class="col s12 m2 l2 center salto"><label id="preciolabel">Precio</label> $ {{$item->producto->precioventa}}</div>
+                        <div class="col s12 m6 l2 center">
                             <div class="row">
                                 <div class="col s4 m4 center">
                                     <a class="btn-floating waves-effect orange darken-2 tooltipped" data-position="top" data-tooltip="Remover" id="remove-{{$item->idcarrito}}" onclick="ChangeItem(this)">
@@ -61,8 +61,8 @@
                         </div>
                         @php($temptotal = $item->producto->precioventa * $item->cantidad)
                         @php($totalgeneral += $temptotal)
-                        <div class="col s12 m2 center salto"><label id="totallabel">Total</label> $ {{ number_format($temptotal, 2, '.', '') }}</div>
-                        <div class="col s12 m1 center">
+                        <div class="col s12 m2 l2 center salto"><label id="totallabel">Total</label> $ {{ number_format($temptotal, 2, '.', '') }}</div>
+                        <div class="col s12 m6 l1 center">
                             <a class="btn-floating waves-effect red accent-2 tooltipped" data-position="top" data-tooltip="Eliminar Artículo" id="item-{{$item->idcarrito}}"
                                 onclick="getFormDelete(this)">
                                 <i class="material-icons">clear</i>
@@ -94,7 +94,7 @@
                 </div>
                 @else
                 <div class="row">
-                    <div class="col m12 red accent-2 center text-white">
+                    <div class="col s12 m12 l12 red accent-2 center text-white">
                        <p class="white-text">No se encontraron artículos.</p>
                     </div>
                 </div>
