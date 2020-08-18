@@ -1,3 +1,7 @@
+ $(window).on("load", function () {
+     $('#page-loader').fadeOut(500);
+ });
+
  $(document).ready(function () {
      $('.sidenav').sidenav();
      $('.carousel').carousel();
@@ -102,7 +106,7 @@
              process(false, 'agregado');
              ResponseAlert(response.status, response.msg);
              if (response.status == "success") {
-                 AddArticulo(1);
+                 AddArticulo(response.cantidadcarrito);
              }
          },
          error: function (r) {
@@ -125,7 +129,7 @@
              process(false, 'eliminado');
              ResponseAlert(response.status, response.msg);
              if (response.status == "success") {
-                 RemoveArticulo(1);
+                 RemoveArticulo(response.cantidadcarrito);
                  history.go(0);
              }
          },

@@ -3,10 +3,10 @@
         <i class="fas fa-share-alt"></i>
     </a>
     <ul>
-        <li><a class="btn-floating red"><i class="fab fa-pinterest"></i></a></li>
-        <li><a class="btn-floating pink darken-1"><i class="fab fa-instagram"></i></a></li>
-        <li><a class="btn-floating green"><i class="fab fa-whatsapp"></i></a></li>
-        <li><a class="btn-floating blue"><i class="fab fa-facebook"></i></a></li>
+        <li><a href="https://www.pinterest.com/" target="_blank" class="btn-floating red"><i class="fab fa-pinterest"></i></a></li>
+        <li><a href="https://www.instagram.com/" target="_blank" class="btn-floating pink darken-1"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="https://www.whatsapp.com/" target="_blank" class="btn-floating green"><i class="fab fa-whatsapp"></i></a></li>
+        <li><a href="https://www.facebook.com/" target="_blank" class="btn-floating blue"><i class="fab fa-facebook"></i></a></li>
     </ul>
 </div>
 <footer class="page-footer green lighten-1">
@@ -52,7 +52,7 @@
     <div class="footer-copyright">
         <div class="container">
             © {{$empresa->nombre}}. Todos los derechos reservados (2020)
-            <a class="grey-text text-lighten-4 right" href="#!">Terminos y Condiciones</a>
+            <a class="grey-text text-lighten-4 right">Terminos y Condiciones</a>
         </div>
     </div>
 </footer>

@@ -135,20 +135,22 @@ class GalleryController extends Controller
 
     public function InsertarProducto(Request $request)
     {
+        $idusuario = $this->InitSesion();
         $idproducto = $request->input('idproducto');
         $talla = $request->input('talla');
         $cantidad = $request->input('cantidad');
-        $inventario = Inventario::where("idproducto", $idproducto)->where("idtalla", $talla)->get();
-        $max = 0;
-        foreach ($inventario as $item) {
-            $max = $item->disponible;
-        }
-        if ($cantidad > $max) {
-            $response["status"] = "warning";
-            $response["msg"] = "La cantidad maxima de este artículo es $max";
+        $Stok = $this->ValidateInsertProduct($idusuario, $idproducto, $talla);
+        if ($cantidad > $Stok["max"]) {
+            if ($Stok["existe"] == false) {
+                $response["status"] = "warning";
+                $response["msg"] = "La cantidad maxima de este artículo es " . $Stok["max"];
+            } else {
+                $response["status"] = "warning";
+                $response["msg"] = "Ya tienes agregado el producto al maximo disponible.";
+            }
+            $response["cantidadcarrito"] = 0;
         } else {
-            $idusuario = $this->InitSesion();
-            if ($idusuario != 0) {
+            if ($Stok["existe"] == false) {
                 $NewArticulo = Carrito::create([
                     'idproducto' => $idproducto,
                     'idusuario' => $idusuario,
@@ -162,16 +164,41 @@ class GalleryController extends Controller
                     $response["status"] = "error";
                     $response["msg"] = "Ocurrio un error, no agregado";
                 }
+                $response["cantidadcarrito"] = 1;
             } else {
-                $response["status"] = "error";
-                $response["msg"] = "Error de sesión, vualva a cargar la página";
+                $sumacantidad = $Stok["agregados"] + $cantidad;
+                $UpdateArticulo = Carrito::where('idcarrito', $Stok["idcarrito"])->update(['cantidad' => $sumacantidad]);
+                if ($UpdateArticulo) {
+                    $response["status"] = "success";
+                    $response["msg"] = "Se actualizo el producto en carrito";
+                } else {
+                    $response["status"] = "error";
+                    $response["msg"] = "Ocurrio un error, no agregado";
+                }
+                $response["cantidadcarrito"] = 0;
             }
         }
         return response()->json($response);
     }
 
-    public function ValidateInsertProduct()
+    public function ValidateInsertProduct($idusuario, $idproducto, $idtalla)
     {
+        $inventario = Inventario::where("idproducto", $idproducto)->where("idtalla", $idtalla)->get();
+        $max = 0;
+        foreach ($inventario as $item) {
+            $max = $item->disponible;
+        }
+        $productos = Carrito::where("idusuario", $idusuario)->where("idproducto", $idproducto)->where("idtalla", $idtalla)->first();
+        if (count($productos) != 0) {
+            $response["existe"] = true;
+            $response["agregados"] = $productos->cantidad;
+            $response["max"] = $max - $productos->cantidad;
+            $response["idcarrito"] = $productos->idcarrito;
+        } else {
+            $response["existe"] = false;
+            $response["max"] = $max;
+        }
+        return $response;
     }
 
     public function EliminarProducto(Request $request)
@@ -181,9 +208,11 @@ class GalleryController extends Controller
         if ($delete) {
             $response["status"] = "success";
             $response["msg"] = "Se elimino el artículo";
+            $response["cantidadcarrito"] = 1;
         } else {
             $response["status"] = "error";
             $response["msg"] = "Ocurrio un error, no se elimino";
+            $response["cantidadcarrito"] = 0;
         }
         return response()->json($response);
     }
